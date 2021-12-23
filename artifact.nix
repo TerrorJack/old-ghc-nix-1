@@ -1,7 +1,7 @@
 { stdenv, lib, patchelfUnstable
 , perl, gcc, llvm_37 ? null, llvm_39 ? null, llvm_5 ? null, llvm_6 ? null
 , llvm_7 ? null, llvm_9 ? null, llvm_12 ? null, ncurses6, ncurses5, gmp, glibc, libiconv
-, numactl ? null, elfutils
+, elfutils
 }: { bindistTarballs, ncursesVersion, hosts, key, bindistVersion }:
 
 # Prebuilt only does native
@@ -13,7 +13,7 @@ let
   libPath = lib.makeLibraryPath ([
     selectedNcurses gmp
   ] ++ lib.optional (stdenv.hostPlatform.isDarwin) libiconv
-    ++ lib.optionals (stdenv.targetPlatform.isLinux) [ numactl elfutils ]);
+    ++ lib.optionals (stdenv.targetPlatform.isLinux) [ elfutils ]);
 
   ncursesVersion = host.ncursesVersion or "6";
 
@@ -105,8 +105,7 @@ stdenv.mkDerivation rec {
   ++ lib.optional (stdenv.targetPlatform.isLinux) elfutils;
   propagatedBuildInputs = [ stdenv.cc ]
   ++ lib.optionals (stdenv.targetPlatform.isAarch32 || stdenv.targetPlatform.isAarch64) (
-     [ selectedLLVM ] ++ lib.optional stdenv.targetPlatform.isLinux elfutils)
-  ++ lib.optionals stdenv.targetPlatform.isLinux [ numactl ];
+     [ selectedLLVM ] ++ lib.optional stdenv.targetPlatform.isLinux elfutils);
 
   # Cannot patchelf beforehand due to relative RPATHs that anticipate
   # the final install location/

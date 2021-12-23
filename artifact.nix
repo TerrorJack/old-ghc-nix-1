@@ -1,7 +1,8 @@
 { stdenv, lib, patchelfUnstable
-, perl, gcc, llvm_37 ? null, llvm_39 ? null, llvm_5 ? null, llvm_6 ? null
-, llvm_7 ? null, llvm_9 ? null, llvm_12 ? null, ncurses6, ncurses5, gmp, glibc, libiconv
+, perl, gcc, llvmPackages_5 ? null, llvmPackages_6 ? null
+, llvmPackages_7 ? null, llvmPackages_9 ? null, llvmPackages_12 ? null, ncurses6, ncurses5, gmp, glibc, libiconv
 , elfutils
+, which
 }: { bindistTarballs, ncursesVersion, hosts, key, bindistVersion }:
 
 # Prebuilt only does native
@@ -24,32 +25,32 @@ let
 
   # Better way to do this? Just put this in versions.json
   selectedLLVM = {
-    "9.2.1" = llvm_12;
-    "9.0.1" = llvm_9;
-    "8.10.7" = llvm_12;
-    "8.10.6" = llvm_12;
-    "8.10.5" = llvm_12;
-    "8.10.4" = llvm_9;
-    "8.10.3" = llvm_9;
-    "8.10.2" = llvm_9;
-    "8.10.1" = llvm_9;
-    "8.8.4" = llvm_7;
-    "8.8.3" = llvm_7;
-    "8.8.2" = llvm_7;
-    "8.8.1" = llvm_7;
-    "8.6.5" = llvm_6;
-    "8.6.4" = llvm_6;
-    "8.6.3" = llvm_6;
-    "8.6.2" = llvm_6;
-    "8.6.1" = llvm_6;
-    "8.4.4" = llvm_5;
-    "8.4.3" = llvm_5;
-    "8.4.2" = llvm_5;
-    "8.4.1" = llvm_5;
-    "8.2.2" = llvm_39;
-    "8.2.1" = llvm_39;
-    "8.0.2" = llvm_37;
-    "8.0.1" = llvm_37;
+    "9.2.1" = llvmPackages_12;
+    "9.0.1" = llvmPackages_9;
+    "8.10.7" = llvmPackages_12;
+    "8.10.6" = llvmPackages_12;
+    "8.10.5" = llvmPackages_12;
+    "8.10.4" = llvmPackages_9;
+    "8.10.3" = llvmPackages_9;
+    "8.10.2" = llvmPackages_9;
+    "8.10.1" = llvmPackages_9;
+    "8.8.4" = llvmPackages_7;
+    "8.8.3" = llvmPackages_7;
+    "8.8.2" = llvmPackages_7;
+    "8.8.1" = llvmPackages_7;
+    "8.6.5" = llvmPackages_6;
+    "8.6.4" = llvmPackages_6;
+    "8.6.3" = llvmPackages_6;
+    "8.6.2" = llvmPackages_6;
+    "8.6.1" = llvmPackages_6;
+    "8.4.4" = llvmPackages_5;
+    "8.4.3" = llvmPackages_5;
+    "8.4.2" = llvmPackages_5;
+    "8.4.1" = llvmPackages_5;
+    "8.2.2" = llvmPackages_5;
+    "8.2.1" = llvmPackages_5;
+    "8.0.2" = llvmPackages_5;
+    "8.0.1" = llvmPackages_5;
   }."${bindistVersion}";
 
   libEnvVar = lib.optionalString stdenv.hostPlatform.isDarwin "DY"
@@ -101,11 +102,8 @@ stdenv.mkDerivation rec {
 
   src = bindistTarballs.${stdenv.targetPlatform.system};
 
-  nativeBuildInputs = [ perl ]
+  nativeBuildInputs = [ perl which ]
   ++ lib.optional (stdenv.targetPlatform.isLinux) elfutils;
-  propagatedBuildInputs = [ stdenv.cc ]
-  ++ lib.optionals (stdenv.targetPlatform.isAarch32 || stdenv.targetPlatform.isAarch64) (
-     [ selectedLLVM ] ++ lib.optional stdenv.targetPlatform.isLinux elfutils);
 
   # Cannot patchelf beforehand due to relative RPATHs that anticipate
   # the final install location/
@@ -170,6 +168,23 @@ stdenv.mkDerivation rec {
     lib.optional (version == "8.4.4" && stdenv.isDarwin) ./patches/ghc844/darwin-gcc-version-fix.patch;
 
   configurePlatforms = [ ];
+  preConfigure = ''
+    export CC=$(which $CC)
+    export CXX=$(which $CXX)
+    export LD=$(which $LD)
+    export AS=$(which $AS)
+    export AR=$(which $AR)
+    export NM=$(which $NM)
+    export RANLIB=$(which $RANLIB)
+    export READELF=$(which $READELF)
+    export STRIP=$(which $STRIP)
+    export CLANG=${selectedLLVM.clang}/bin/clang
+    export LLC=${selectedLLVM.llvm}/bin/llc
+    export OPT=${selectedLLVM.llvm}/bin/opt
+  '' + lib.optionalString (stdenv.targetPlatform.linker == "cctools") ''
+    export OTOOL=$(which $OTOOL)
+    export INSTALL_NAME_TOOL=$(which $INSTALL_NAME_TOOL)
+  '';
   configureFlags = [
     "--with-gmp-libraries=${lib.getLib gmp}/lib"
     "--with-gmp-includes=${lib.getDev gmp}/include"

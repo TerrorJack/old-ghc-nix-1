@@ -1,4 +1,24 @@
 {
+  "ghc921".hosts.x86_64-darwin.src = { url = "https://haskell.org/ghc/dist/9.2.1/ghc-9.2.1-x86_64-apple-darwin.tar.xz"; sha256 = "1dqkq7wlrhfm05kq3lg1xyd57snyi5h9ab2xx260j1h3445709y5"; };
+  "ghc921".version = "9.2.1";
+  "ghc921".nixversion = "ghc921";
+  "ghc921".bindistVersion = "9.2.1";
+  "ghc921".hosts.aarch64-darwin.src = { url = "https://haskell.org/ghc/dist/9.2.1/ghc-9.2.1-aarch64-apple-darwin.tar.xz"; sha256 = "1kslrdy6gbzs347flalsiq4f10n7x1rxch48nx1yv3g33849jsrm"; };
+  "ghc921".hosts.x86_64-linux.src = { url = "https://haskell.org/ghc/dist/9.2.1/ghc-9.2.1-x86_64-fedora27-linux.tar.xz"; sha256 = "0aakbm7haqgaqg3wy1slj3h8r4x0zvivmb4d84px8v80ckzd2z73"; };
+  "ghc921".hosts.x86_64-linux.ncursesVersion = "6";
+  "ghc921".hosts.i686-linux.src = { url = "https://haskell.org/ghc/dist/9.2.1/ghc-9.2.1-i386-deb9-linux.tar.xz"; sha256 = "0i9cmwkzz9bv4d7gq1zafs7cnbhx6ddjxja9qjizanmy7yc9xakd"; };
+  "ghc921".hosts.i686-linux.ncursesVersion = "5";
+  "ghc921".hosts.aarch64-linux.src = { url = "https://haskell.org/ghc/dist/9.2.1/ghc-9.2.1-aarch64-deb10-linux.tar.xz"; sha256 = "189rsm16ywp105666srvqzja5b454zdyvrlc0h3sh1xlm1344zbi"; };
+  "ghc901".hosts.x86_64-darwin.src = { url = "https://haskell.org/ghc/dist/9.0.1/ghc-9.0.1-x86_64-apple-darwin.tar.xz"; sha256 = "08hvwz5d0cll2j7xiafdchxgcbyybchz0xfjg5vi3l27j5860b8j"; };
+  "ghc901".version = "9.0.1";
+  "ghc901".nixversion = "ghc901";
+  "ghc901".bindistVersion = "9.0.1";
+  "ghc901".hosts.x86_64-linux.src = { url = "https://haskell.org/ghc/dist/9.0.1/ghc-9.0.1-x86_64-fedora27-linux.tar.xz"; sha256 = "0v9igxj350lxg5imx4iyilw7fpywg9r1cg0vzpdlq6y5xrzf5f0z"; };
+  "ghc901".hosts.x86_64-linux.ncursesVersion = "6";
+  "ghc901".hosts.i686-linux.src = { url = "https://haskell.org/ghc/dist/9.0.1/ghc-9.0.1-i386-deb9-linux.tar.xz"; sha256 = "19cb9wk98h7jnd00252v2cq5y6c5xdbbpr6gzsy0311jm373f3l8"; };
+  "ghc901".hosts.i686-linux.ncursesVersion = "5";
+  "ghc901".hosts.aarch64-linux.src = { url = "https://haskell.org/ghc/dist/9.0.1/ghc-9.0.1-aarch64-deb9-linux.tar.xz"; sha256 = "01j906cy6sypibxl3jxr6ckwva80ixxxd8i483wmvh43zjys1izs"; };
+  "ghc901".hosts.aarch64-linux.ncursesVersion = "5";
   "ghc8107".hosts.x86_64-darwin.src = { url = "https://haskell.org/ghc/dist/8.10.7/ghc-8.10.7-x86_64-apple-darwin.tar.xz"; sha256 = "0ir02gjyb4l073z4gs3f1zjkx04n14dp7a5z4cqzbj9qqgwv0z98"; };
   "ghc8107".version = "8.10.7";
   "ghc8107".nixversion = "ghc8107";
@@ -72,7 +92,6 @@
   "ghc884".hosts.x86_64-linux.ncursesVersion = "6";
   "ghc884".hosts.i686-linux.src = { url = "https://haskell.org/ghc/dist/8.8.4/ghc-8.8.4-i386-deb9-linux.tar.xz"; sha256 = "1853bmyjzdyg08l1gdr20hni0kbpqymhmvrc66a7c0n9214rbpa3"; };
   "ghc884".hosts.i686-linux.ncursesVersion = "5";
-  "ghc884".hosts.aarch64-linux.src = { url = "https://haskell.org/ghc/dist/8.8.4/ghc-8.8.4-aarch64-deb9-linux.tar.xz"; sha256 = ""; };
   "ghc884".hosts.aarch64-linux.ncursesVersion = "5";
   "ghc883".hosts.x86_64-darwin.src = { url = "https://haskell.org/ghc/dist/8.8.3/ghc-8.8.3-x86_64-apple-darwin.tar.xz"; sha256 = "10mpvd4dk2y289a90y66v00sphl39ifrqxfhg7y0csr2vn8dw5kh"; };
   "ghc883".version = "8.8.3";

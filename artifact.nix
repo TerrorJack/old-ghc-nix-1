@@ -1,6 +1,6 @@
 { stdenv, lib, patchelfUnstable
 , perl, gcc, llvm_37 ? null, llvm_39 ? null, llvm_5 ? null, llvm_6 ? null
-, llvm_7 ? null, llvm_9 ? null, ncurses6, ncurses5, gmp, glibc, libiconv
+, llvm_7 ? null, llvm_9 ? null, llvm_12 ? null, ncurses6, ncurses5, gmp, glibc, libiconv
 , numactl ? null, elfutils
 }: { bindistTarballs, ncursesVersion, hosts, key, bindistVersion }:
 
@@ -24,9 +24,11 @@ let
 
   # Better way to do this? Just put this in versions.json
   selectedLLVM = {
-    "8.10.7" = llvm_9;
-    "8.10.6" = llvm_9;
-    "8.10.5" = llvm_9;
+    "9.2.1" = llvm_12;
+    "9.0.1" = llvm_9;
+    "8.10.7" = llvm_12;
+    "8.10.6" = llvm_12;
+    "8.10.5" = llvm_12;
     "8.10.4" = llvm_9;
     "8.10.3" = llvm_9;
     "8.10.2" = llvm_9;
@@ -143,6 +145,8 @@ stdenv.mkDerivation rec {
     '' +
     # We have to patch the GMP paths for the integer-gmp package.
     ''
+      find . -name ghc-bignum.buildinfo \
+          -exec sed -i "s@extra-lib-dirs: @extra-lib-dirs: ${gmp.out}/lib@" {} \;
       find . -name integer-gmp.buildinfo \
           -exec sed -i "s@extra-lib-dirs: @extra-lib-dirs: ${gmp.out}/lib@" {} \;
       find . -name terminfo.buildinfo \

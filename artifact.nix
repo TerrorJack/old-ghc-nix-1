@@ -1,7 +1,7 @@
 { stdenv, lib, patchelfUnstable
 , perl, gcc, llvmPackages_5 ? null, llvmPackages_6 ? null
 , llvmPackages_7 ? null, llvmPackages_9 ? null, llvmPackages_12 ? null, ncurses6, ncurses5, gmp, glibc, libiconv
-, elfutils
+, numactl ? null, elfutils
 , which
 }: { bindistTarballs, ncursesVersion, hosts, key, bindistVersion }:
 
@@ -14,7 +14,7 @@ let
   libPath = lib.makeLibraryPath ([
     selectedNcurses gmp
   ] ++ lib.optional (stdenv.hostPlatform.isDarwin) libiconv
-    ++ lib.optionals (stdenv.targetPlatform.isLinux) [ elfutils ]);
+    ++ lib.optionals (stdenv.targetPlatform.isLinux) [ numactl elfutils ]);
 
   ncursesVersion = host.ncursesVersion or "6";
 
